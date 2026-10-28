@@ -1,0 +1,16 @@
+{
+  "name": "music-visualizer",
+  "version": "0.1.0",
+  "description": "Floating desktop widget that visualizes system audio and controls the current media session (Windows).",
+  "private": true,
+  "main": "src/main/main.js",
+  "scripts": {
+    "postinstall": "install-electron",
+    "start": "electron .",
+    "test": "node --test"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^45.0.0"
+  }
+}

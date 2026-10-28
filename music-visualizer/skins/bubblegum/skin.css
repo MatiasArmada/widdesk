@@ -1,0 +1,21 @@
+/* Bubblegum 2K: jelly transport buttons on a light, glossy shell. */
+
+:root {
+  color-scheme: light;
+}
+
+.ctl-btn:not(.play) {
+  background-image: radial-gradient(circle at 50% 28%, #ffffff 0%, #d9c8ff 30%, #9b6bff 78%, #7444e0 100%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 6px rgba(116, 68, 224, 0.4);
+}
+
+.ctl-btn:not(.play):hover {
+  background-image: radial-gradient(circle at 50% 28%, #ffffff 0%, #c8f2ff 30%, #3fd0ff 78%, #1a9fd6 100%);
+  color: #ffffff;
+}
+
+.app {
+  color: #c2187a;
+  opacity: 0.75;
+}

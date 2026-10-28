@@ -1,0 +1,30 @@
+/* Walnut & Brass: brass knobs and a turntable for the album art. */
+
+/* Previous / next as small brass knobs. */
+.ctl-btn:not(.play) {
+  background-image: radial-gradient(circle at 35% 30%, #fff1c1 0%, #d8ae52 35%, #8c6220 80%, #5a3c10 100%);
+  border: 1px solid #4a2f0e;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.ctl-btn:not(.play):hover {
+  background-image: radial-gradient(circle at 35% 30%, #fff8dc 0%, #e8c060 38%, #9a6c24 80%, #5a3c10 100%);
+  color: #000;
+}
+
+/* The round album art spins like a record while playing. */
+.card[data-status='playing'] .art.has-art img {
+  animation: walnut-spin 9s linear infinite;
+}
+
+@keyframes walnut-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card[data-status='playing'] .art.has-art img {
+    animation: none;
+  }
+}

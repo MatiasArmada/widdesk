@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="200" viewBox="0 0 360 200">
+  <!-- Retro perspective floor: lines fade in from the horizon (y=118) toward the viewer. -->
+  <defs>
+    <linearGradient id="fade" gradientUnits="userSpaceOnUse" x1="0" y1="118" x2="0" y2="200">
+      <stop offset="0" stop-color="#ff2bd6" stop-opacity="0" />
+      <stop offset="1" stop-color="#ff2bd6" stop-opacity="0.6" />
+    </linearGradient>
+  </defs>
+  <g stroke="url(#fade)" stroke-width="1" fill="none">
+    <path d="M0 120H360M0 123H360M0 128H360M0 135H360M0 145H360M0 158H360M0 175H360M0 196H360" />
+    <path d="M180 118L180 200M180 118L120 200M180 118L60 200M180 118L0 200M180 118L-60 200M180 118L-180 200M180 118L-360 200M180 118L240 200M180 118L300 200M180 118L360 200M180 118L420 200M180 118L540 200M180 118L720 200" />
+  </g>
+  <path d="M0 118H360" stroke="#22f3ff" stroke-opacity="0.35" stroke-width="1" />
+</svg>

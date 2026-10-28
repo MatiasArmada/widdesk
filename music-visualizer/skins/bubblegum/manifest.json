@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "id": "bubblegum",
+  "name": "Bubblegum 2K",
+  "author": "Music Visualizer",
+  "description": "Translucent candy plastic from the turn of the millennium, glossy and bubbly.",
+  "swatch": ["#ffb6e1", "#c9b8ff", "#a9ecff"],
+  "vars": {
+    "--skin-accent": "#ff4fb4",
+    "--skin-accent-2": "#3fd0ff",
+
+    "--skin-bg": "linear-gradient(160deg, rgba(255, 182, 225, 0.9) 0%, rgba(214, 190, 255, 0.86) 50%, rgba(170, 230, 255, 0.9) 100%)",
+    "--skin-bg-image": "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.15) 45%, rgba(255, 255, 255, 0) 46%), url(bubbles.svg)",
+    "--skin-border": "2px solid rgba(255, 255, 255, 0.85)",
+    "--skin-radius": "26px",
+    "--skin-shadow": "inset 0 -6px 14px rgba(160, 90, 200, 0.25), inset 0 2px 0 rgba(255, 255, 255, 0.9)",
+
+    "--skin-fg": "#4b1d63",
+    "--skin-fg-dim": "#6e3d8c",
+    "--skin-fg-faint": "#835a9e",
+    "--skin-font": "'Trebuchet MS', 'Segoe UI', sans-serif",
+    "--skin-font-title": "'Trebuchet MS', 'Segoe UI', sans-serif",
+    "--skin-font-mono": "'Trebuchet MS', 'Segoe UI', sans-serif",
+    "--skin-title-color": "#c2187a",
+    "--skin-title-weight": "700",
+    "--skin-title-spacing": "0.2px",
+    "--skin-text-shadow": "0 1px 0 rgba(255, 255, 255, 0.8)",
+
+    "--skin-button-fg": "#6e3d8c",
+    "--skin-button-radius": "50%",
+    "--skin-button-hover-bg": "rgba(255, 255, 255, 0.6)",
+    "--skin-button-hover-fg": "#c2187a",
+    "--skin-control-fg": "#ffffff",
+    "--skin-control-radius": "50%",
+    "--skin-close-hover-bg": "#ff4f7a",
+    "--skin-close-hover-fg": "#ffffff",
+    "--skin-pin-active": "#c2187a",
+    "--skin-chip-border": "1px solid #c2187a",
+    "--skin-focus": "#c2187a",
+
+    "--skin-play-bg": "radial-gradient(circle at 50% 28%, #ffffff 0%, #ffb3e1 30%, #ff4fb4 75%, #d61f8f 100%)",
+    "--skin-play-fg": "#ffffff",
+    "--skin-play-hover-bg": "radial-gradient(circle at 50% 28%, #ffffff 0%, #ffc8ea 32%, #ff6cc2 76%, #e02a9a 100%)",
+    "--skin-play-border": "1px solid rgba(255, 255, 255, 0.9)",
+    "--skin-play-shadow": "0 3px 8px rgba(214, 31, 143, 0.45), inset 0 -3px 6px rgba(140, 0, 90, 0.3)",
+
+    "--skin-art-bg": "linear-gradient(135deg, #a9ecff, #ffb6e1)",
+    "--skin-art-border": "2px solid #ffffff",
+    "--skin-art-radius": "18px",
+    "--skin-art-shadow": "0 3px 10px rgba(120, 60, 170, 0.3)",
+    "--skin-art-icon": "#ffffff",
+
+    "--skin-track-bg": "rgba(255, 255, 255, 0.6)",
+    "--skin-track-fill": "linear-gradient(90deg, #ff4fb4, #9b6bff, #3fd0ff)",
+    "--skin-thumb-bg": "#ffffff",
+    "--skin-thumb-shadow": "0 0 0 3px rgba(255, 79, 180, 0.45)",
+
+    "--skin-menu-bg": "rgba(255, 240, 250, 0.97)",
+    "--skin-menu-fg": "#4b1d63",
+    "--skin-menu-border": "2px solid #ffffff",
+    "--skin-menu-radius": "14px",
+    "--skin-menu-shadow": "0 6px 18px rgba(120, 60, 170, 0.35)",
+    "--skin-menu-hover-bg": "rgba(255, 79, 180, 0.18)"
+  },
+  "visualizer": {
+    "mode": "bars",
+    "barCount": 28,
+    "colors": ["#ff4fb4", "#9b6bff", "#3fd0ff"],
+    "barGap": 0.38,
+    "barRadius": 1,
+    "opacity": 0.55
+  }
+}

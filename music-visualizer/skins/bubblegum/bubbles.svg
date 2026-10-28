@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="200" viewBox="0 0 360 200">
+  <!-- Soap bubbles: translucent rings with a small specular highlight each. -->
+  <g fill="#ffffff" fill-opacity="0.16" stroke="#ffffff" stroke-opacity="0.65" stroke-width="1.2">
+    <circle cx="300" cy="42" r="22" />
+    <circle cx="336" cy="92" r="9" />
+    <circle cx="252" cy="18" r="6" />
+    <circle cx="26" cy="168" r="16" />
+    <circle cx="66" cy="190" r="7" />
+    <circle cx="206" cy="182" r="5" />
+    <circle cx="346" cy="160" r="12" />
+  </g>
+  <g fill="#ffffff" fill-opacity="0.85">
+    <ellipse cx="292" cy="33" rx="6" ry="3.5" transform="rotate(-35 292 33)" />
+    <ellipse cx="333" cy="88" rx="2.6" ry="1.5" transform="rotate(-35 333 88)" />
+    <ellipse cx="20" cy="161" rx="4.5" ry="2.6" transform="rotate(-35 20 161)" />
+    <ellipse cx="342" cy="155" rx="3.4" ry="2" transform="rotate(-35 342 155)" />
+  </g>
+</svg>

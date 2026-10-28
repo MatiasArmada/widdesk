@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self' skin:; img-src 'self' data: skin:; font-src 'self' skin:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Music Visualizer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="card" id="card" data-status="stopped" data-session="false" data-skin-loading>
+      <canvas class="viz" id="viz" aria-hidden="true"></canvas>
+
+      <header class="topbar">
+        <button class="icon-btn" id="btn-mode" type="button" aria-label="Switch visualizer mode" title="Visualizer: bars">
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="ico-bars">
+            <path d="M5 10v4M9 6v12M13 8v8M17 4v16M21 10v4" />
+          </svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="ico-wave">
+            <path d="M2 12c2 0 2-6 4-6s2 12 4 12 2-12 4-12 2 12 4 12 2-6 4-6" />
+          </svg>
+        </button>
+
+        <div class="capture-status" id="capture-status" hidden>
+          <span>No audio capture</span>
+          <button class="text-btn" id="btn-retry" type="button" aria-label="Retry audio capture">Retry</button>
+        </div>
+
+        <div class="window-btns">
+          <button
+            class="icon-btn"
+            id="btn-skin"
+            type="button"
+            aria-label="Choose skin"
+            aria-haspopup="menu"
+            aria-expanded="false"
+            aria-controls="skin-menu"
+            title="Skins"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.6-.9 1.6-1.6 0-1-.8-1.4-.8-2.2 0-.9.7-1.5 1.7-1.5H16a5 5 0 0 0 5-5c0-4.3-4-7.7-9-7.7z" />
+              <path class="fill" d="M7.5 12.6a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6zM10.2 8.4a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6zM15 8.6a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6z" />
+            </svg>
+          </button>
+          <button class="icon-btn" id="btn-pin" type="button" aria-label="Keep on top" aria-pressed="true" title="Keep on top">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 4h6l-1 6 3 3v1H7v-1l3-3-1-6zM12 14v6" />
+            </svg>
+          </button>
+          <button class="icon-btn" id="btn-min" type="button" aria-label="Minimize" title="Minimize">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12" /></svg>
+          </button>
+          <button class="icon-btn" id="btn-close" type="button" aria-label="Close" title="Close">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" /></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="skin-menu" id="skin-menu" role="menu" aria-label="Skins" hidden>
+        <div class="skin-list" id="skin-list" role="group" aria-label="Available skins"></div>
+        <div class="skin-menu-sep" role="separator"></div>
+        <button class="skin-action" id="btn-skins-reload" type="button" role="menuitem">Reload skins</button>
+        <button class="skin-action" id="btn-skins-folder" type="button" role="menuitem">Open skins folder</button>
+      </div>
+
+      <section class="info">
+        <div class="art" id="art">
+          <img id="art-img" alt="" hidden />
+          <svg class="art-placeholder" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 18V6l10-2v12" />
+            <circle cx="6.5" cy="18" r="2.5" />
+            <circle cx="16.5" cy="16" r="2.5" />
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="title-wrap" id="title-wrap">
+            <span class="title" id="title">Nothing playing</span>
+          </div>
+          <div class="artist" id="artist">Play something to get started</div>
+          <div class="app" id="app"></div>
+        </div>
+      </section>
+
+      <section class="seek">
+        <span class="time" id="elapsed">0:00</span>
+        <div
+          class="seekbar"
+          id="seekbar"
+          role="slider"
+          tabindex="0"
+          aria-label="Seek"
+          aria-valuemin="0"
+          aria-valuemax="0"
+          aria-valuenow="0"
+          aria-valuetext="0:00 of 0:00"
+          aria-disabled="true"
+        >
+          <div class="seek-track"><div class="seek-fill" id="seek-fill"></div></div>
+          <div class="seek-thumb" id="seek-thumb"></div>
+        </div>
+        <span class="time" id="total">0:00</span>
+      </section>
+
+      <section class="controls">
+        <button class="ctl-btn" id="btn-prev" type="button" aria-label="Previous track" title="Previous">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M7 6h2v12H7zM20 6v12l-9-6z" /></svg>
+        </button>
+        <button class="ctl-btn play" id="btn-play" type="button" aria-label="Play" title="Play / Pause">
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="ico-play"><path class="fill" d="M8 5v14l11-7z" /></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="ico-pause"><path class="fill" d="M7 5h4v14H7zM13 5h4v14h-4z" /></svg>
+        </button>
+        <button class="ctl-btn" id="btn-next" type="button" aria-label="Next track" title="Next">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M15 6h2v12h-2zM4 6v12l9-6z" /></svg>
+        </button>
+      </section>
+    </main>
+
+    <script src="../shared/format.js"></script>
+    <script src="../shared/bands.js"></script>
+    <script src="../shared/skin-manifest.js"></script>
+    <script src="visualizer.js"></script>
+    <script src="renderer.js"></script>
+  </body>
+</html>

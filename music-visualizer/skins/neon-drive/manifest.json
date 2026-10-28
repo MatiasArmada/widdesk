@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "id": "neon-drive",
+  "name": "Neon Drive",
+  "author": "Music Visualizer",
+  "description": "Midnight synthwave: a sunset horizon, a magenta grid and glowing cyan type.",
+  "swatch": ["#0d0221", "#ff2bd6", "#22f3ff"],
+  "vars": {
+    "--skin-accent": "#ff2bd6",
+    "--skin-accent-2": "#22f3ff",
+
+    "--skin-bg": "radial-gradient(60% 55% at 50% 100%, rgba(255, 95, 160, 0.5), rgba(255, 95, 160, 0) 70%), linear-gradient(180deg, #0d0221 0%, #261447 58%, #3d0f4f 100%)",
+    "--skin-bg-image": "url(grid.svg)",
+    "--skin-border": "1px solid rgba(255, 43, 214, 0.6)",
+    "--skin-radius": "14px",
+    "--skin-shadow": "inset 0 0 18px rgba(255, 43, 214, 0.35), inset 0 0 2px rgba(34, 243, 255, 0.8)",
+
+    "--skin-fg": "#f6e9ff",
+    "--skin-fg-dim": "#dcc2ff",
+    "--skin-fg-faint": "#a487d4",
+    "--skin-font": "'Trebuchet MS', 'Segoe UI', sans-serif",
+    "--skin-font-title": "Impact, 'Arial Black', sans-serif",
+    "--skin-font-mono": "'Trebuchet MS', 'Segoe UI', sans-serif",
+    "--skin-title-color": "#22f3ff",
+    "--skin-title-weight": "400",
+    "--skin-title-transform": "uppercase",
+    "--skin-title-spacing": "1.5px",
+    "--skin-text-shadow": "0 0 6px rgba(255, 43, 214, 0.9), 0 0 2px rgba(34, 243, 255, 0.9)",
+
+    "--skin-button-fg": "#22f3ff",
+    "--skin-button-hover-bg": "rgba(255, 43, 214, 0.28)",
+    "--skin-button-hover-fg": "#ffffff",
+    "--skin-control-fg": "#ff7ae9",
+    "--skin-close-hover-bg": "#ff2bd6",
+    "--skin-close-hover-fg": "#ffffff",
+    "--skin-pin-active": "#ff2bd6",
+    "--skin-chip-border": "1px solid #ff2bd6",
+    "--skin-focus": "#22f3ff",
+
+    "--skin-play-bg": "linear-gradient(180deg, #ff2bd6, #7a1cff)",
+    "--skin-play-fg": "#ffffff",
+    "--skin-play-hover-bg": "linear-gradient(180deg, #ff5ae0, #9a4cff)",
+    "--skin-play-border": "1px solid #22f3ff",
+    "--skin-play-shadow": "0 0 12px rgba(255, 43, 214, 0.8), 0 0 2px #22f3ff",
+
+    "--skin-art-bg": "linear-gradient(180deg, #ffb23c 0%, #ff2bd6 55%, #2a0a4f 100%)",
+    "--skin-art-border": "1px solid rgba(34, 243, 255, 0.7)",
+    "--skin-art-radius": "6px",
+    "--skin-art-shadow": "0 0 10px rgba(34, 243, 255, 0.45)",
+    "--skin-art-icon": "#ffffff",
+
+    "--skin-track-bg": "rgba(34, 243, 255, 0.18)",
+    "--skin-track-fill": "linear-gradient(90deg, #ff2bd6, #22f3ff)",
+    "--skin-thumb-bg": "#ffffff",
+    "--skin-thumb-shadow": "0 0 8px #ff2bd6",
+
+    "--skin-menu-bg": "rgba(20, 4, 40, 0.96)",
+    "--skin-menu-fg": "#f6e9ff",
+    "--skin-menu-border": "1px solid #ff2bd6",
+    "--skin-menu-radius": "8px",
+    "--skin-menu-shadow": "0 0 16px rgba(255, 43, 214, 0.45)",
+    "--skin-menu-hover-bg": "rgba(34, 243, 255, 0.18)"
+  },
+  "visualizer": {
+    "mode": "bars",
+    "barCount": 40,
+    "colors": ["#ff2bd6", "#22f3ff"],
+    "gradient": "vertical",
+    "peakColor": "#ffffff",
+    "glow": 10,
+    "barGap": 0.35,
+    "barRadius": 0.3,
+    "opacity": 0.7
+  }
+}

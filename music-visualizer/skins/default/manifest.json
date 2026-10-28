@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "id": "default",
+  "name": "Midnight Glass",
+  "author": "Music Visualizer",
+  "description": "The original frosted dark glass. Accent colors follow the album art.",
+  "adaptiveAccent": true,
+  "swatch": ["#121218", "#8b5cf6", "#22d3ee"],
+  "vars": {},
+  "visualizer": {
+    "mode": "bars"
+  }
+}

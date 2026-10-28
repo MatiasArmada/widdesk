@@ -1,0 +1,14 @@
+/* Neon Drive: italic chrome-type title and a magenta source label. */
+
+.title {
+  font-style: italic;
+}
+
+.app {
+  color: #ff7ae9;
+  letter-spacing: 2px;
+}
+
+.ctl-btn:not(.play):hover {
+  filter: drop-shadow(0 0 4px #ff2bd6);
+}

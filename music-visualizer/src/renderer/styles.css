@@ -1,0 +1,654 @@
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  user-select: none;
+}
+
+/*
+ * ---------- Skin tokens ----------
+ * Every visual decision below goes through a --skin-* custom property. These
+ * defaults are the built-in "Midnight Glass" look; a skin's generated token
+ * stylesheet (loaded after this file) overrides any subset of them on .card.
+ * See SKINS.md for the full contract.
+ */
+.card {
+  --skin-accent: #8b5cf6;
+  --skin-accent-2: #22d3ee;
+
+  --skin-bg:
+    radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 60%),
+    radial-gradient(120% 90% at 100% 100%, color-mix(in srgb, var(--accent-2) 12%, transparent), transparent 60%),
+    rgba(18, 18, 24, 0.78);
+  --skin-bg-image: none;
+  --skin-border: 1px solid rgba(255, 255, 255, 0.09);
+  --skin-radius: 18px;
+  --skin-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 0 24px color-mix(in srgb, var(--accent) 14%, transparent);
+  --skin-overlay: none;
+  --skin-overlay-opacity: 1;
+  --skin-overlay-blend: normal;
+
+  --skin-fg: #f4f4f8;
+  --skin-fg-dim: rgba(244, 244, 248, 0.66);
+  --skin-fg-faint: rgba(244, 244, 248, 0.42);
+  --skin-font: 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+  --skin-font-title: var(--skin-font);
+  --skin-font-mono: var(--skin-font);
+  --skin-title-color: var(--skin-fg);
+  --skin-title-weight: 600;
+  --skin-title-transform: none;
+  --skin-title-spacing: 0.1px;
+  --skin-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+
+  --skin-titlebar-bg: transparent;
+  --skin-titlebar-border: 0 solid transparent;
+  --skin-display-bg: transparent;
+  --skin-display-border: 0 solid transparent;
+  --skin-display-radius: 0;
+  --skin-display-shadow: none;
+
+  --skin-button-fg: var(--skin-fg-dim);
+  --skin-button-bg: transparent;
+  --skin-button-image: none;
+  --skin-button-border: 0 solid transparent;
+  --skin-button-radius: 8px;
+  --skin-button-shadow: none;
+  --skin-button-hover-bg: rgba(255, 255, 255, 0.1);
+  --skin-button-hover-fg: var(--skin-fg);
+  --skin-control-fg: var(--skin-fg);
+  --skin-control-radius: 50%;
+  --skin-close-hover-bg: rgba(239, 68, 68, 0.75);
+  --skin-close-hover-fg: #fff;
+  --skin-pin-active: var(--accent-2);
+  --skin-chip-border: 1px solid rgba(255, 255, 255, 0.09);
+  --skin-focus: var(--accent-2);
+
+  --skin-play-bg: linear-gradient(135deg, #ffffff, color-mix(in srgb, var(--accent-2) 25%, #ffffff));
+  --skin-play-fg: #101014;
+  --skin-play-hover-bg: #ffffff;
+  --skin-play-border: 0 solid transparent;
+  --skin-play-radius: 50%;
+  --skin-play-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 45%, transparent);
+
+  --skin-art-bg: linear-gradient(135deg, color-mix(in srgb, var(--accent) 45%, #1d1d27), color-mix(in srgb, var(--accent-2) 30%, #1d1d27));
+  --skin-art-border: 0 solid transparent;
+  --skin-art-radius: 12px;
+  --skin-art-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  --skin-art-icon: rgba(255, 255, 255, 0.75);
+
+  --skin-track-bg: rgba(255, 255, 255, 0.14);
+  --skin-track-fill: linear-gradient(90deg, var(--accent), var(--accent-2));
+  --skin-track-radius: 999px;
+  --skin-thumb-bg: #fff;
+  --skin-thumb-radius: 50%;
+  --skin-thumb-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
+
+  --skin-menu-bg: rgba(24, 24, 32, 0.96);
+  --skin-menu-fg: var(--skin-fg);
+  --skin-menu-border: 1px solid rgba(255, 255, 255, 0.12);
+  --skin-menu-radius: 10px;
+  --skin-menu-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --skin-menu-hover-bg: rgba(255, 255, 255, 0.08);
+
+  /* Live accent: the skin accent, or the album-art color for adaptive skins (set inline by the renderer). */
+  --accent: var(--skin-accent);
+  --accent-2: var(--skin-accent-2);
+}
+
+.card {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  padding: 10px 14px 10px;
+  display: grid;
+  grid-template-rows: 22px 64px 16px 1fr;
+  row-gap: 8px;
+  border-radius: var(--skin-radius);
+  background: var(--skin-bg-image), var(--skin-bg);
+  border: var(--skin-border);
+  box-shadow: var(--skin-shadow);
+  font-family: var(--skin-font);
+  color: var(--skin-fg);
+  overflow: hidden;
+  -webkit-app-region: drag;
+  transition: background 600ms ease;
+}
+
+/* Hidden until the selected skin is applied, so a non-default skin does not flash the default look.
+   opacity, not visibility: hidden elements get no drag/no-drag regions, and Chromium may not
+   recompute them on reveal, leaving the whole card draggable and the buttons unclickable. */
+.card[data-skin-loading] {
+  opacity: 0;
+}
+
+/* Full-card layer drawn above everything (scanlines, vignettes, gloss).
+   ::before, not ::after: drag regions are resolved in tree order (later wins, z-index is ignored)
+   and this layer inherits the card's drag, so as the last child it swallowed every button. */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: inherit;
+  background: var(--skin-overlay);
+  opacity: var(--skin-overlay-opacity);
+  mix-blend-mode: var(--skin-overlay-blend);
+}
+
+.viz {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.topbar,
+.info,
+.seek,
+.controls {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Buttons ---------- */
+button {
+  font: inherit;
+  color: inherit;
+  -webkit-app-region: no-drag;
+}
+
+.icon-btn,
+.ctl-btn,
+.text-btn {
+  border: var(--skin-button-border);
+  background-color: var(--skin-button-bg);
+  background-image: var(--skin-button-image);
+  box-shadow: var(--skin-button-shadow);
+  cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+  border-radius: var(--skin-button-radius);
+  color: var(--skin-button-fg);
+  transition: background-color 120ms ease, color 120ms ease, transform 80ms ease;
+}
+
+.icon-btn:hover,
+.ctl-btn:hover,
+.text-btn:hover {
+  background-color: var(--skin-button-hover-bg);
+  color: var(--skin-button-hover-fg);
+}
+
+.icon-btn:active,
+.ctl-btn:active {
+  transform: scale(0.92);
+}
+
+:focus-visible {
+  outline: 2px solid var(--skin-focus);
+  outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+svg .fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* ---------- Top bar ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  /* Bleed to the card edges so a skin can paint a title bar strip; content stays put. */
+  margin: -10px -14px 0;
+  padding: 10px 14px 0;
+  background: var(--skin-titlebar-bg);
+  border-bottom: var(--skin-titlebar-border);
+}
+
+.icon-btn {
+  width: 22px;
+  height: 22px;
+  padding: 3px;
+}
+
+.window-btns {
+  display: flex;
+  gap: 2px;
+}
+
+#btn-close:hover {
+  background-color: var(--skin-close-hover-bg);
+  color: var(--skin-close-hover-fg);
+}
+
+#btn-pin[aria-pressed='true'],
+#btn-skin[aria-expanded='true'] {
+  color: var(--skin-pin-active);
+}
+
+#btn-pin[aria-pressed='false'] svg {
+  opacity: 0.55;
+}
+
+#btn-mode .ico-wave {
+  display: none;
+}
+
+#btn-mode[data-mode='wave'] .ico-bars {
+  display: none;
+}
+
+#btn-mode[data-mode='wave'] .ico-wave {
+  display: block;
+}
+
+.capture-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--skin-fg-faint);
+  margin-right: auto;
+}
+
+.capture-status[hidden] {
+  display: none;
+}
+
+.text-btn {
+  padding: 1px 8px;
+  font-size: 11px;
+  border: var(--skin-chip-border);
+  border-radius: 999px;
+}
+
+/* ---------- Skin picker ---------- */
+.skin-menu {
+  position: absolute;
+  top: 34px;
+  right: 10px;
+  z-index: 2;
+  width: 200px;
+  max-height: calc(100% - 44px);
+  overflow-y: auto;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 12px;
+  color: var(--skin-menu-fg);
+  background: var(--skin-menu-bg);
+  border: var(--skin-menu-border);
+  border-radius: var(--skin-menu-radius);
+  box-shadow: var(--skin-menu-shadow);
+  -webkit-app-region: no-drag;
+}
+
+.skin-menu[hidden] {
+  display: none;
+}
+
+.skin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.skin-item,
+.skin-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 24px;
+  padding: 3px 8px;
+  border: 0;
+  border-radius: calc(var(--skin-menu-radius) / 2);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.skin-item:hover,
+.skin-item:focus-visible,
+.skin-action:hover,
+.skin-action:focus-visible {
+  background: var(--skin-menu-hover-bg);
+}
+
+.skin-item:focus-visible,
+.skin-action:focus-visible {
+  outline-offset: -2px;
+}
+
+.skin-swatch {
+  display: flex;
+  flex: none;
+  width: 30px;
+  height: 12px;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(127, 127, 127, 0.45);
+}
+
+.skin-swatch span {
+  flex: 1;
+}
+
+.skin-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.skin-item[aria-checked='true'] .skin-name {
+  font-weight: 700;
+}
+
+.skin-item[aria-checked='true']::after {
+  content: '';
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.skin-tag {
+  flex: none;
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  opacity: 0.6;
+}
+
+.skin-menu-sep {
+  height: 1px;
+  margin: 3px 4px;
+  background: currentColor;
+  opacity: 0.2;
+}
+
+.skin-action {
+  opacity: 0.85;
+}
+
+/* ---------- Track info ---------- */
+.info {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+}
+
+.art {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--skin-art-radius);
+  overflow: hidden;
+  background: var(--skin-art-bg);
+  border: var(--skin-art-border);
+  display: grid;
+  place-items: center;
+  box-shadow: var(--skin-art-shadow);
+}
+
+.art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.art img[hidden] {
+  display: none;
+}
+
+.art-placeholder {
+  width: 30px;
+  height: 30px;
+  color: var(--skin-art-icon);
+}
+
+.art.has-art .art-placeholder {
+  display: none;
+}
+
+.meta {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  /* Padding cancelled by negative margins: a skin "display" panel fits around the text without moving it. */
+  margin: -4px -8px;
+  padding: 4px 8px;
+  background: var(--skin-display-bg);
+  border: var(--skin-display-border);
+  border-radius: var(--skin-display-radius);
+  box-shadow: var(--skin-display-shadow);
+  text-shadow: var(--skin-text-shadow);
+}
+
+.title-wrap {
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-app-region: no-drag;
+  mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 14px), transparent);
+}
+
+.title {
+  display: inline-block;
+  font-family: var(--skin-font-title);
+  font-size: 15px;
+  font-weight: var(--skin-title-weight);
+  letter-spacing: var(--skin-title-spacing);
+  text-transform: var(--skin-title-transform);
+  color: var(--skin-title-color);
+}
+
+.title-wrap:not(.overflowing) {
+  mask-image: none;
+}
+
+.title-wrap.marquee .title {
+  animation: marquee var(--marquee-duration, 6s) ease-in-out infinite alternate;
+}
+
+@keyframes marquee {
+  0%,
+  15% {
+    transform: translateX(0);
+  }
+  85%,
+  100% {
+    transform: translateX(var(--marquee-shift, 0));
+  }
+}
+
+.artist,
+.app {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.artist {
+  font-size: 12.5px;
+  color: var(--skin-fg-dim);
+}
+
+.app {
+  font-size: 10.5px;
+  color: var(--skin-fg-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* ---------- Seek ---------- */
+.seek {
+  display: grid;
+  grid-template-columns: 36px 1fr 36px;
+  align-items: center;
+  gap: 8px;
+}
+
+.time {
+  font-family: var(--skin-font-mono);
+  font-size: 10.5px;
+  color: var(--skin-fg-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.time:last-child {
+  text-align: right;
+}
+
+.seekbar {
+  position: relative;
+  height: 16px;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  border-radius: var(--skin-track-radius);
+  touch-action: none;
+}
+
+.seek-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 6px;
+  height: 4px;
+  border-radius: var(--skin-track-radius);
+  background: var(--skin-track-bg);
+  overflow: hidden;
+}
+
+.seek-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: var(--skin-track-fill);
+}
+
+.seek-thumb {
+  position: absolute;
+  top: 3px;
+  left: 0%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: var(--skin-thumb-radius);
+  background: var(--skin-thumb-bg);
+  box-shadow: var(--skin-thumb-shadow);
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.seekbar:hover .seek-thumb,
+.seekbar.dragging .seek-thumb,
+.seekbar:focus-visible .seek-thumb {
+  opacity: 1;
+}
+
+.seekbar[aria-disabled='true'] {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.seekbar[aria-disabled='true'] .seek-thumb {
+  display: none;
+}
+
+/* ---------- Controls ---------- */
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+}
+
+.ctl-btn {
+  width: 32px;
+  height: 32px;
+  padding: 7px;
+  border-radius: var(--skin-control-radius);
+  color: var(--skin-control-fg);
+}
+
+.ctl-btn.play {
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  color: var(--skin-play-fg);
+  background: var(--skin-play-bg);
+  border: var(--skin-play-border);
+  border-radius: var(--skin-play-radius);
+  box-shadow: var(--skin-play-shadow);
+}
+
+.ctl-btn.play:hover {
+  background: var(--skin-play-hover-bg);
+  color: var(--skin-play-fg);
+}
+
+.ctl-btn.play .ico-pause {
+  display: none;
+}
+
+.card[data-status='playing'] .ctl-btn.play .ico-pause {
+  display: block;
+}
+
+.card[data-status='playing'] .ctl-btn.play .ico-play {
+  display: none;
+}
+
+.ctl-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* ---------- Empty state ---------- */
+.card[data-session='false'] .title {
+  font-weight: 500;
+  color: var(--skin-fg-dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title-wrap.marquee .title {
+    animation: none;
+  }
+}

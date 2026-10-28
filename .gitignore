@@ -1,0 +1,7 @@
+node_modules/
+
+# Local tooling caches
+.atl/
+
+# Third-party reference images (trademarked, not for distribution)
+music-visualizer/example.png

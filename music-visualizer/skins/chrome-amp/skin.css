@@ -1,0 +1,22 @@
+/* Chrome Amp: extra details on top of the tokens. */
+
+/* The source app label lives inside the LCD, so it needs an LCD color, not the metal one. */
+.app {
+  color: #4f9a22;
+}
+
+.card[data-session='false'] .title {
+  color: #6cbf30;
+}
+
+/* Engraved look for the time readouts on the metal face. */
+.time {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Square, pressed-in feel for the transport buttons. */
+.ctl-btn:active,
+.icon-btn:active {
+  transform: none;
+  box-shadow: inset 1px 1px 0 #6b7078, inset -1px -1px 0 #ffffff;
+}
