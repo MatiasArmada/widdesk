@@ -1,14 +1,21 @@
 # widdesk
 
-Small, floating desktop widgets that sit on top of your work and stay out of the way. Each widget is a self-contained project with its own dependencies, documentation and tests.
+**widdesk is a growing collection of useful, customizable desktop widgets**: small, floating windows that sit on top of your work and stay out of the way.
 
-![Music Visualizer demo](music-visualizer/docs/demo.gif)
+Each widget is a self-contained project with its own dependencies, documentation and tests, so you only install what you use. New widgets will be added to this repository over time.
 
 ## Widgets
 
-| Widget | Description | Platform |
-| --- | --- | --- |
-| [Music Visualizer](music-visualizer/) | Visualizes system audio in real time and shows the current track with playback controls, seek and album art. Supports live-switchable skins. | Windows |
+| Widget | Description | Platform | Status |
+| --- | --- | --- | --- |
+| [Music Visualizer](music-visualizer/) | Visualizes system audio in real time and shows the current track with playback controls, seek and album art. Supports live-switchable skins. | Windows | Available |
+| More widgets | Additional widgets are planned. | — | Coming soon |
+
+### Music Visualizer
+
+The first widget in the collection.
+
+![Music Visualizer demo](music-visualizer/docs/demo.gif)
 
 ## Requirements
 
